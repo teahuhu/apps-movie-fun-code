@@ -14,15 +14,19 @@ $ mvn clean package -DskipTests -Dmaven.test.skip=true
 $ MOVIE_FUN_URL=http://moviefun.example.com mvn test
 ```
 ```
-history | grep ssh
+git clean -df
+./gradlew bootRun --parallel
+echo "source ~/workspace/apps-movie-fun-modernization-code/.env" >> ~/.bashrc
+source .env
+env
 
-ssh-keygen -t rsa -b 4096 -C "teahuhu@travelers.com"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_rsa_jh
-xclip -sel clip < ~/.ssh/id_rsa_jh.pub
+./gradlew tasks
+./gradlew bootRun
+./gradlew build
+./gradlew clean build
+cf push moviefun --random-route -p build/libs/moviefun-1.1.0-SNAPSHOT.war 
 
-
-logs6.papertrailapp.com:16333
+logs6.papertrailapp.com:16333 
 
 cf create-service p-mysql 100mb movies-mysql
 cf bind-service moviefun movies-mysql
@@ -36,7 +40,7 @@ mvn clean package -DskipTests -Dmaven.test.skip=true
 cf push moviefun --random-route --no-start -p target/moviefun.war
 cf push moviefun --random-route -p target/moviefun.war
 
-cf create-user-provided-service paper-trail -l syslog-tls://logs6.papertrailapp.com:16333
+cf create-user-provided-service paper-trail -l syslog-tls://logs6.papertrailapp.com:16333 
 
 git push --set-upstream origin logging-start-2
 
@@ -46,7 +50,7 @@ git push --set-upstream origin logging-start-2
      "secret_access_key": "7TVZSoMKcpC3GK/7PzKRNC/iCpARZQyRFi2pG5X8"
 
 
-cf set-env moviefun S3_ENDPOINTURL http://s3.amazonaws.com
+cf set-env moviefun S3_ENDPOINTURL http://s3.amazonaws.com 
 cf set-env moviefun S3_ACCESSKEY AKIAJXKJUHYWUAXCCOYA
 cf set-env moviefun S3_SECRETKEY 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
 cf set-env moviefun S3_BUCKETNAME cf-6dff8c99-a0d2-4f39-91f9-f70c8ef00a75
@@ -75,11 +79,13 @@ https://rmq-5471641b-58d6-4a98-acca-f4b1e8af0017.sys.longs.pal.pivotal.io
 
 curl -X POST http://moviefun-adductive-goldcrest.apps.longs.pal.pivotal.io/rabbit -d ""
 
-./gradlew submitReplatformingBackgroundJobsWithAmqp -PmovieFunUrl=http://moviefun-adductive-goldcrest.apps.longs.pal.pivotal.io\
+./gradlew submitReplatformingBackgroundJobsWithAmqp -PmovieFunUrl=http://moviefun-adductive-goldcrest.apps.longs.pal.pivotal.io
 
 mvn clean package
 cf push remove-session-state -p target/remove-session-state-lab.war -i 2 --random-route --no-start
 cf create-service p-redis shared-vm my-redis 
 cf bind-service remove-session-state my-redis
 cf start remove-session-state
+
+
 ```
