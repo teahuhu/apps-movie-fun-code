@@ -75,5 +75,11 @@ https://rmq-5471641b-58d6-4a98-acca-f4b1e8af0017.sys.longs.pal.pivotal.io
 
 curl -X POST http://moviefun-adductive-goldcrest.apps.longs.pal.pivotal.io/rabbit -d ""
 
-./gradlew submitReplatformingBackgroundJobsWithAmqp -PmovieFunUrl=http://moviefun-adductive-goldcrest.apps.longs.pal.pivotal.io
+./gradlew submitReplatformingBackgroundJobsWithAmqp -PmovieFunUrl=http://moviefun-adductive-goldcrest.apps.longs.pal.pivotal.io\
+
+mvn clean package
+cf push remove-session-state -p target/remove-session-state-lab.war -i 2 --random-route --no-start
+cf create-service p-redis shared-vm my-redis 
+cf bind-service remove-session-state my-redis
+cf start remove-session-state
 ```
