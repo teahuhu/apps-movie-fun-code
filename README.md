@@ -13,6 +13,16 @@ $ mvn clean package -DskipTests -Dmaven.test.skip=true
 ```
 $ MOVIE_FUN_URL=http://moviefun.example.com mvn test
 ```
+## ssh-key
+
+```
+ssh-keygen -t rsa -b 4096 -C "teahuhu@travelers.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa_jh
+xclip -sel clip < ~/.ssh/id_rsa_jh.pub
+
+```
+
 ```
 git clean -df
 ./gradlew bootRun --parallel
